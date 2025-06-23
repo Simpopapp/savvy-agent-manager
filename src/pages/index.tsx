@@ -2,12 +2,10 @@
 import { Layout } from '@/components/Layout';
 import { Chat } from '@/components/Chat';
 
-const Index = () => {
+export default function HomePage() {
   return (
     <Layout>
       <Chat />
     </Layout>
   );
-};
-
-export default Index;
+}
