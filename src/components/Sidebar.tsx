@@ -3,7 +3,7 @@ import { useStore } from '@/hooks/useStore';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { MessageCircle, Settings, Bot } from 'lucide-react';
-import { useRouter } from 'next/router';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export function Sidebar() {
   const { 
@@ -12,7 +12,8 @@ export function Sidebar() {
     setActiveAgent 
   } = useStore();
   
-  const router = useRouter();
+  const location = useLocation();
+  const navigate = useNavigate();
   
   const activeAgent = agents.find(agent => agent.id === activeAgentId);
   
@@ -29,18 +30,18 @@ export function Sidebar() {
       {/* Navigation */}
       <nav className="flex-1 p-4 space-y-2">
         <Button
-          variant={router.pathname === '/' ? 'secondary' : 'ghost'}
+          variant={location.pathname === '/' ? 'secondary' : 'ghost'}
           className="w-full justify-start text-white hover:bg-gray-700"
-          onClick={() => router.push('/')}
+          onClick={() => navigate('/')}
         >
           <MessageCircle className="w-4 h-4 mr-2" />
           Chat
         </Button>
         
         <Button
-          variant={router.pathname === '/management' ? 'secondary' : 'ghost'}
+          variant={location.pathname === '/management' ? 'secondary' : 'ghost'}
           className="w-full justify-start text-white hover:bg-gray-700"
-          onClick={() => router.push('/management')}
+          onClick={() => navigate('/management')}
         >
           <Settings className="w-4 h-4 mr-2" />
           Gerenciamento
