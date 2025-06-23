@@ -18,7 +18,7 @@ export function AgentDialog({ isOpen, onClose, agent }: AgentDialogProps) {
   const [name, setName] = useState('');
   const [modelId, setModelId] = useState('');
   const [promptId, setPromptId] = useState<string>('');
-  const [knowledgeBaseId, setKnowledgeBaseId] = useState<string>('');
+  const [knowledgeBaseId, setKnowledgeBaseId] = useState<string>('none');
   
   const { prompts, knowledgeBases, addAgent, updateAgent } = useStore();
   
@@ -38,12 +38,12 @@ export function AgentDialog({ isOpen, onClose, agent }: AgentDialogProps) {
       setName(agent.name);
       setModelId(agent.model_id);
       setPromptId(agent.prompt_id.toString());
-      setKnowledgeBaseId(agent.knowledge_base_id?.toString() || '');
+      setKnowledgeBaseId(agent.knowledge_base_id?.toString() || 'none');
     } else {
       setName('');
       setModelId('');
       setPromptId('');
-      setKnowledgeBaseId('');
+      setKnowledgeBaseId('none');
     }
   }, [agent]);
   
@@ -56,7 +56,7 @@ export function AgentDialog({ isOpen, onClose, agent }: AgentDialogProps) {
       name: name.trim(),
       model_id: modelId,
       prompt_id: parseInt(promptId),
-      knowledge_base_id: knowledgeBaseId ? parseInt(knowledgeBaseId) : undefined,
+      knowledge_base_id: knowledgeBaseId === 'none' ? undefined : parseInt(knowledgeBaseId),
     };
     
     if (isEditing && agent) {
@@ -128,7 +128,7 @@ export function AgentDialog({ isOpen, onClose, agent }: AgentDialogProps) {
                 <SelectValue placeholder="Selecione uma base (opcional)" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Nenhuma</SelectItem>
+                <SelectItem value="none">Nenhuma</SelectItem>
                 {knowledgeBases.map(kb => (
                   <SelectItem key={kb.id} value={kb.id.toString()}>
                     {kb.name}
